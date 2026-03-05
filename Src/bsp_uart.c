@@ -18,37 +18,37 @@ static uint16_t BSP_UART_Available(void) {
     return (write_pos - read_pos + DMA_RX_BUFFER_SIZE) % DMA_RX_BUFFER_SIZE;
 }
 
-BSP_Status_t BSP_UART_Init(void) {
+Status_t BSP_UART_Init(void) {
     if (HAL_UART_Receive_DMA(&huart2, dma_rx_buffer, DMA_RX_BUFFER_SIZE) != HAL_OK) {
-        return BSP_STATUS_ERROR;
+        return STATUS_ERROR;
     }
 
-    return BSP_STATUS_OK;
+    return STATUS_OK;
 }
 
-BSP_Status_t BSP_UART_ReadByte(uint8_t* pByte) {
+Status_t BSP_UART_ReadByte(uint8_t* pByte) {
     if (BSP_UART_Available() == 0) {
-        return BSP_STATUS_EMPTY;
+        return STATUS_EMPTY;
     }
 
     *pByte = dma_rx_buffer[read_pos];
     read_pos = (read_pos + 1) % DMA_RX_BUFFER_SIZE;
 
-    return BSP_STATUS_OK;
+    return STATUS_OK;
 }
 
-BSP_Status_t BSP_UART_WriteByte(const uint8_t* pByte) {
+Status_t BSP_UART_WriteByte(const uint8_t* pByte) {
     if (HAL_UART_Transmit(&huart2, pByte, 1, HAL_MAX_DELAY) != HAL_OK) {
-        return BSP_STATUS_ERROR;
+        return STATUS_ERROR;
     }
 
-    return BSP_STATUS_OK;
+    return STATUS_OK;
 }
 
-BSP_Status_t BSP_UART_WriteString(const uint8_t* pStr) {
+Status_t BSP_UART_WriteString(const uint8_t* pStr) {
     if (HAL_UART_Transmit(&huart2, pStr, strlen((char*)pStr), HAL_MAX_DELAY) != HAL_OK) {
-        return BSP_STATUS_ERROR;
+        return STATUS_ERROR;
     }
 
-    return BSP_STATUS_OK;
+    return STATUS_OK;
 }

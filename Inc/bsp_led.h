@@ -3,9 +3,9 @@
 
 #include "bsp_def.h"
 
-BSP_Status_t BSP_LED_Init(void);
-BSP_Status_t BSP_LED_On(void);
-BSP_Status_t BSP_LED_Off(void);
-BSP_Status_t BSP_LED_Toggle(void);
+Status_t BSP_LED_Init(void);
+Status_t BSP_LED_On(void);
+Status_t BSP_LED_Off(void);
+Status_t BSP_LED_Toggle(void);
 
 #endif /* __BSP_LED_H */
