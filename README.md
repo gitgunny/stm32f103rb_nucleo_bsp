@@ -18,21 +18,46 @@ HAL을 직접 사용하지 않고 BSP 함수를 통해 하드웨어를 제어합
 - FW: STM32CubeF1 v1.8.7
 - BUILD: CMake + Ninja
 
-## Clone
-```Bash
+## Block Diagram
+- (Image) TODO..
+
+## Build
+- Git Clone
+```bash
 mkdir ./Bsp
 cd ./Bsp
 git clone --recurse-submodules https://github.com/gitgunny/stm32f103rb_nucleo_bsp.git
 ```
 
+- CMakeLists.txt에 아래 경로 추가
+```cmake
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE
+    ...
+    ${CMAKE_CURRENT_SOURCE_DIR}/Bsp/stm32f103rb_nucleo_bsp/Src/bsp_hal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Bsp/stm32f103rb_nucleo_bsp/Src/bsp_led.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Bsp/stm32f103rb_nucleo_bsp/Src/bsp_uart.c
+    ...
+)
+
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
+    ...
+    ${CMAKE_CURRENT_SOURCE_DIR}/Bsp/stm32f103rb_nucleo_bsp/Inc
+    ...
+)
+```
+
+## CubeMX Setting
+- (Image) TODO..
+
 ## Support Function
 
-- hal_def.h (Common)
+- bsp_def.h (Common)
   - `typedef enum BSP_Status_t`
 
-- bsp_hal.h
-  - `void BSP_Delay(uint32_t ms)`
-  - `uint32_t BSP_GetTick(void)`
+- bsp_system.h
+  - `void BSP_SYS_Init(void)`
+  - `void BSP_SYS_Delay(uint32_t ms)`
+  - `uint32_t BSP_SYS_GetTick(void)`
 
 - bsp_led.h
   - `BSP_Status_t BSP_LED_Init(void)`
@@ -40,10 +65,16 @@ git clone --recurse-submodules https://github.com/gitgunny/stm32f103rb_nucleo_bs
   - `BSP_Status_t BSP_LED_Off(void)`
   - `BSP_Status_t BSP_LED_Toggle(void)`
 
+- bsp_uart.h
+  - `BSP_Status_t BSP_UART_Init(void)`
+  - `BSP_Status_t BSP_UART_ReadByte(const uint8_t *pByte)`
+  - `BSP_Status_t BSP_UART_WriteByte(uint8_t *pByte)`
+  - `BSP_Status_t BSP_UART_WriteString(uint8_t *pStr)`
+
 ## Example
 
 ### Before
-```C
+```c
 // led_control.c
 
 #include "stm32f1xx_hal_gpio.h"
@@ -57,7 +88,7 @@ void Led_Off(void) {
 ```
 
 ### After
-```C
+```c
 // led_control.c
 
 #include "bsp_led.h"
