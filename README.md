@@ -34,7 +34,7 @@ git clone --recurse-submodules https://github.com/gitgunny/stm32f103rb_nucleo_bs
 ```cmake
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     ...
-    ${CMAKE_CURRENT_SOURCE_DIR}/Bsp/stm32f103rb_nucleo_bsp/Src/bsp_hal.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Bsp/stm32f103rb_nucleo_bsp/Src/bsp_system.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Bsp/stm32f103rb_nucleo_bsp/Src/bsp_led.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Bsp/stm32f103rb_nucleo_bsp/Src/bsp_uart.c
     ...
@@ -49,35 +49,59 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
 
 ## CubeMX Setting
 
-- Clock Configuration
+<details>
+<summary>자세히</summary>
+
+- **Clock Configuration**
+
 ![Image](./Docs/README_CubeMXSetting_ClockConfiguration.png)
 
-- Pinout & Configuration
-  - Pinout View
-    ![Image](./Docs/README_CubeMXSetting_Pinout.png)
-  - Configuration
-    - System Core
-      - GPIO
-        ![Image](./Docs/README_CubeMXSetting_GPIO.png)
-      - DMA
-        ![Image](./Docs/README_CubeMXSetting_DMA.png)
-      - NVIC
-        ![Image](./Docs/README_CubeMXSetting_NVIC.png)
-      - RCC
-        ![Image](./Docs/README_CubeMXSetting_RCC.png)
-      - SYS
-        ![Image](./Docs/README_CubeMXSetting_SYS.png)
-    - Connectivity
-      - UASART2
-        ![Image](./Docs/README_CubeMXSetting_UART_1.png)
-        ![Image](./Docs/README_CubeMXSetting_UART_2.png)
-        ![Image](./Docs/README_CubeMXSetting_UART_3.png)
-        ![Image](./Docs/README_CubeMXSetting_UART_4.png)
+- **Pinout View**
+
+  ![Image](./Docs/README_CubeMXSetting_Pinout.png)
+
+- **Configuration**
+
+  - **System Core**
+
+    - **GPIO**
+
+      ![Image](./Docs/README_CubeMXSetting_GPIO.png)
+
+    - **DMA**
+
+      ![Image](./Docs/README_CubeMXSetting_DMA.png)
+
+    - **NVIC**
+
+      ![Image](./Docs/README_CubeMXSetting_NVIC.png)
+
+    - **RCC**
+
+      ![Image](./Docs/README_CubeMXSetting_RCC.png)
+
+    - **SYS**
+
+      ![Image](./Docs/README_CubeMXSetting_SYS.png)
+
+  - **Connectivity**
+
+    - **USART2**
+
+      ![Image](./Docs/README_CubeMXSetting_UART_1.png)
+
+      ![Image](./Docs/README_CubeMXSetting_UART_2.png)
+
+      ![Image](./Docs/README_CubeMXSetting_UART_3.png)
+
+      ![Image](./Docs/README_CubeMXSetting_UART_4.png)
+
+</details>
 
 ## Support Function
 
 - bsp_def.h (Common)
-  - `typedef enum BSP_Status_t`
+  - `typedef enum BSP_Status_t { STATUS_OK, STATUS_ERROR, ... }`
 
 - bsp_system.h
   - `void BSP_SYS_Init(void)`
@@ -92,9 +116,9 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
 
 - bsp_uart.h
   - `BSP_Status_t BSP_UART_Init(void)`
-  - `BSP_Status_t BSP_UART_ReadByte(const uint8_t *pByte)`
-  - `BSP_Status_t BSP_UART_WriteByte(uint8_t *pByte)`
-  - `BSP_Status_t BSP_UART_WriteString(uint8_t *pStr)`
+  - `BSP_Status_t BSP_UART_ReadByte(uint8_t *pByte)`
+  - `BSP_Status_t BSP_UART_WriteByte(const uint8_t *pByte)`
+  - `BSP_Status_t BSP_UART_WriteString(const uint8_t *pStr)`
 
 ## Example
 
